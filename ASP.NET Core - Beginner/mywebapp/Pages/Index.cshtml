@@ -1,0 +1,6 @@
+@page
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<h1>Header of razor Page</h1>
+<h2>@Configuration["Message"]</h2>

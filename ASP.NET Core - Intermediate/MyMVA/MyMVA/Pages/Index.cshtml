@@ -1,0 +1,9 @@
+﻿@page
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h1>This is my Machine Name : @Configuration["computername"]</h1>
+<h1>This is my Machine Name : @Configuration["MyTwitterKey"]</h1>
