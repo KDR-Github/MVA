@@ -1,15 +1,12 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Drawing;
-using Microsoft.EntityFrameworkCore;
 
-namespace Demos
+namespace data_seeding1
 {
-    public class Program
+    class Program
     {
-        private static void Main()
+        static void Main(string[] args)
         {
             using (var db = new BloggingContext())
             {
@@ -19,6 +16,8 @@ namespace Demos
                         $"Id = {theme.ThemeId}, Name = {theme.Name}, Color = {theme.TitleColor}");
                 }
             }
+
+            Console.ReadLine();
         }
     }
 
@@ -44,15 +43,15 @@ namespace Demos
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Demo.DataSeeding;Trusted_Connection=True;ConnectRetryCount=0");
+                .UseSqlServer(@"Server=RAMDAS\SQLEXPRESS;Database=Demo.DataSeeding;Trusted_Connection=True;ConnectRetryCount=0");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<Theme>()
-                .SeedData(
-                    new Theme { ThemeId = 1, Name = "MSDN", TitleColor = Color.Red.Name },
+                .HasData(
+                    new Theme { ThemeId = 1, Name = "MSDN", TitleColor = Color.AliceBlue.Name },
                     new Theme { ThemeId = 2, Name = "TechNet", TitleColor = Color.DarkCyan.Name },
                     new Theme { ThemeId = 3, Name = "Personal", TitleColor = Color.LightBlue.Name });
         }
