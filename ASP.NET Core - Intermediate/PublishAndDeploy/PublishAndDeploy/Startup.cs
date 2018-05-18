@@ -1,17 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
 
-namespace WebAPISample
+namespace PublishAndDeploy
 {
     public class Startup
     {
@@ -26,14 +22,6 @@ namespace WebAPISample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            services.AddSwaggerGen( c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Concert API", Version = "v1" });
-            }
-            );
-
-            services.AddDbContext<TicketContext>(opt => opt.UseInMemoryDatabase("TicketList"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,15 +29,15 @@ namespace WebAPISample
         {
             if (env.IsDevelopment())
             {
+                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseSwagger();
-            app.UseSwaggerUI( s =>
+            else
             {
-                s.SwaggerEndpoint("v1/swagger.json", "Ticket API V1");
+                app.UseExceptionHandler("/Error");
             }
-            );
+
+            app.UseStaticFiles();
 
             app.UseMvc();
         }

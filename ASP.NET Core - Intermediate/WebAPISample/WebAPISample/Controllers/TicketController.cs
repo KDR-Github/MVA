@@ -63,5 +63,44 @@ namespace WebAPISample.Controllers
 
             return CreatedAtRoute("GetTicket", new { id = ticket.Id }, ticket);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(long id, [FromBody] TicketItem ticket)
+        {
+            if (ticket == null || ticket.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var tic = _context.TicketItems.FirstOrDefault(t => t.Id == id);
+            if (tic == null)
+            {
+                return NotFound();
+            }
+
+            tic.Concert = ticket.Concert;
+            tic.Artist = ticket.Artist;
+            tic.Available = ticket.Available;
+            _context.TicketItems.Update(tic);
+            _context.SaveChanges();
+
+            return new NoContentResult(); //204
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            var tic = _context.TicketItems.FirstOrDefault(t => t.Id == id);
+
+            if(tic == null)
+            {
+                return NotFound();
+            }
+
+            _context.TicketItems.Remove(tic);
+            _context.SaveChanges();
+
+            return new NoContentResult();
+        }
     }
 }

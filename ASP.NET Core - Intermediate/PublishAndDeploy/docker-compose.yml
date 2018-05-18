@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  publishanddeploy:
+    image: ${DOCKER_REGISTRY}publishanddeploy
+    build:
+      context: .
+      dockerfile: PublishAndDeploy/Dockerfile
